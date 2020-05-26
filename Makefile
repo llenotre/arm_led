@@ -17,7 +17,7 @@ OBJ_DIRS := $(patsubst $(SRC_DIR)%,$(OBJ_DIR)%,$(DIR))
 
 LIBS = -lgcc
 
-all: $(NAME).bin
+all: $(NAME).bin tags
 
 $(OBJ_DIRS):
 	mkdir -p $(OBJ_DIRS)
@@ -41,11 +41,11 @@ flash: $(NAME).bin
 	sudo st-flash write $< 0x8000000
 
 clean:
-	rm -rf $(OBJ_DIR)
+	rm -r $(OBJ_DIR)
 
 fclean: clean
-	rm -f $(NAME)
-	rm -f tags
+	rm $(NAME).elf $(NAME).bin
+	rm tags
 
 re: fclean all
 
