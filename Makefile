@@ -1,23 +1,52 @@
+NAME = led
 CC = arm-none-eabi-gcc
 CFLAGS = -nostdlib -ffreestanding -fpic -mcpu=cortex-m4 -mthumb -fno-pie -no-pie -ggdb
 
-LIBS = -lgcc
-
 OBJCOPY = arm-none-eabi-objcopy
 
-test.bin: test.elf
+SRC_DIR = src/
+SRC := $(shell find $(SRC_DIR) -type f -name "*.c")
+HDR := $(shell find $(SRC_DIR) -type f -name "*.h")
+DIR := $(shell find $(SRC_DIR) -type d)
+
+LINKER = linker.ld
+
+OBJ_DIR = obj/
+OBJ := $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))
+OBJ_DIRS := $(patsubst $(SRC_DIR)%,$(OBJ_DIR)%,$(DIR))
+
+LIBS = -lgcc
+
+all: $(NAME).bin
+
+$(OBJ_DIRS):
+	mkdir -p $(OBJ_DIRS)
+
+$(NAME).bin: $(NAME).elf
 	$(OBJCOPY) -O binary $< $@
 
-test.elf: main.o boot.o linker.ld
-	$(CC) $(CFLAGS) $(LIBS) -T linker.ld -o $@ main.o boot.o
+$(NAME).elf: $(OBJ_DIRS) $(OBJ) $(LINKER) Makefile
+	$(CC) $(CFLAGS) $(LIBS) -T $(LINKER) -o $@ $(OBJ)
 
-%.o: %.c Makefile
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-%.o: %.s Makefile
+$(OBJ_DIR)%.o: $(SRC_DIR)%.s Makefile
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-flash: test.bin
+tags: $(SRC) $(HDR)
+	ctags $(SRC) $(HDR)
+
+flash: $(NAME).bin
 	sudo st-flash write $< 0x8000000
 
-.PHONY: flash
+clean:
+	rm -rf $(OBJ_DIR)
+
+fclean: clean
+	rm -f $(NAME)
+	rm -f tags
+
+re: fclean all
+
+.PHONY: all flash clean fclean re
