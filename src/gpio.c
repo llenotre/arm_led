@@ -1,10 +1,10 @@
 #include <gpio.h>
 
-void set_GPIO_mode(volatile uint8_t *gpio_addr, int io_id, int mode)
+void set_GPIO_mode(void *gpio_addr, int io_id, int mode)
 {
-	uint32_t *addr;
+	volatile uint32_t *addr;
 
-	addr = (uint32_t *) (gpio_addr + GPIO_OFFSET_MODE);
+	addr = gpio_addr + GPIO_OFFSET_MODE;
 	*addr &= ~(0b11 << io_id);
 	*addr |= mode << io_id;
 }
@@ -14,11 +14,11 @@ void set_GPIO_mode(volatile uint8_t *gpio_addr, int io_id, int mode)
 // TODO Set GPIO pull-up/pull-down
 
 // TODO GPIO Input
-void set_GPIO_out(volatile uint8_t *gpio_addr, int io_id, int val)
+void set_GPIO_out(void *gpio_addr, int io_id, int val)
 {
-	uint32_t *addr;
+	volatile uint32_t *addr;
 
-	addr = (uint32_t *) (gpio_addr + GPIO_OFFSET_OUTPUT);
+	addr = gpio_addr + GPIO_OFFSET_OUTPUT;
 	*addr &= ~(1 << io_id);
 	*addr |= val << io_id;
 }
