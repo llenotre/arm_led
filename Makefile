@@ -5,7 +5,7 @@ CFLAGS = -nostdlib -ffreestanding -fpic -mcpu=cortex-m4 -mthumb -fno-pie -no-pie
 OBJCOPY = arm-none-eabi-objcopy
 
 SRC_DIR = src/
-SRC := $(shell find $(SRC_DIR) -type f -name "*.c")
+SRC := $(shell find $(SRC_DIR) -type f -name "*.[cs]")
 HDR := $(shell find $(SRC_DIR) -type f -name "*.h")
 DIR := $(shell find $(SRC_DIR) -type d)
 
@@ -38,7 +38,7 @@ tags: $(SRC) $(HDR)
 	ctags $(SRC) $(HDR)
 
 flash: $(NAME).bin
-	sudo st-flash write $< 0x8000000
+	sudo st-flash write $< 0x8000000 || sudo st-flash write $< 0x8000000
 
 clean:
 	rm -r $(OBJ_DIR)

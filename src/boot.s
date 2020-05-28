@@ -1,5 +1,7 @@
 .section .init
 
+.org 0x0
+
 IVT:
 	.word stack_top
 	.word _start + 1
