@@ -15,6 +15,7 @@ OBJ_DIR = obj/
 OBJ := $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRC))
 OBJ_DIRS := $(patsubst $(SRC_DIR)%,$(OBJ_DIR)%,$(DIR))
 
+INCLUDES = -I $(SRC_DIR)
 LIBS = -lgcc
 
 all: $(NAME).bin tags
@@ -26,13 +27,13 @@ $(NAME).bin: $(NAME).elf
 	$(OBJCOPY) -O binary $< $@
 
 $(NAME).elf: $(OBJ_DIRS) $(OBJ) $(LINKER) Makefile
-	$(CC) $(CFLAGS) $(LIBS) -T $(LINKER) -o $@ $(OBJ)
+	$(CC) $(CFLAGS) $(INCLUDES) $(LIBS) -T $(LINKER) -o $@ $(OBJ)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.s Makefile
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 tags: $(SRC) $(HDR)
 	ctags $(SRC) $(HDR)
