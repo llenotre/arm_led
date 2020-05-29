@@ -1,12 +1,11 @@
 #include <gpio.h>
+#include <assert.h>
 
-void set_GPIO_mode(void *gpio_addr, int io_id, int mode)
+void set_GPIO_mode(volatile gpio_t *gpio, unsigned pin, unsigned mode)
 {
-	volatile uint32_t *addr;
-
-	addr = gpio_addr + GPIO_OFFSET_MODE;
-	*addr &= ~(0b11 << io_id);
-	*addr |= mode << io_id;
+	assert(gpio && pin <= 16 && mode <= 0b11);
+	gpio->mode &= ~(0b11 << (pin * 2));
+	gpio->mode |= mode << (pin * 2);
 }
 
 // TODO Set GPIO output type
@@ -14,13 +13,11 @@ void set_GPIO_mode(void *gpio_addr, int io_id, int mode)
 // TODO Set GPIO pull-up/pull-down
 
 // TODO GPIO Input
-void set_GPIO_out(void *gpio_addr, int io_id, int val)
+void set_GPIO_out(volatile gpio_t *gpio, unsigned pin, unsigned val)
 {
-	volatile uint32_t *addr;
-
-	addr = gpio_addr + GPIO_OFFSET_OUTPUT;
-	*addr &= ~(1 << io_id);
-	*addr |= val << io_id;
+	assert(gpio && pin <= 16 && val <= 1);
+	gpio->output &= ~(1 << pin);
+	gpio->output |= val << pin;
 }
 
 // TODO GPIO bit set/reset

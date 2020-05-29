@@ -1,13 +1,9 @@
 #include <gpio.h>
-
-#define LED_PIN	21
-
-__attribute__((noreturn))
-extern void halt(void);
+#include <assert.h>
 
 void main(void)
 {
-	set_GPIO_mode(GPIO_A, LED_PIN, 0b01);
-	set_GPIO_out(GPIO_A, LED_PIN, 1);
+	set_GPIO_mode(GPIO_B, 13, GPIO_MODE_OUTPUT);
+	set_GPIO_out(GPIO_B, 13, 1);
 	halt();
 }

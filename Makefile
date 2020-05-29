@@ -29,17 +29,14 @@ $(NAME).bin: $(NAME).elf
 $(NAME).elf: $(OBJ_DIRS) $(OBJ) $(LINKER) Makefile
 	$(CC) $(CFLAGS) $(INCLUDES) $(LIBS) -T $(LINKER) -o $@ $(OBJ)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HDR) Makefile
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.s Makefile
+$(OBJ_DIR)%.o: $(SRC_DIR)%.s $(HDR) Makefile
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 tags: $(SRC) $(HDR)
 	ctags $(SRC) $(HDR)
-
-flash: $(NAME).bin
-	sudo st-flash write $< 0x8000000 || sudo st-flash write $< 0x8000000
 
 clean:
 	rm -r $(OBJ_DIR)
@@ -49,5 +46,11 @@ fclean: clean
 	rm tags
 
 re: fclean all
+
+flash: $(NAME).bin
+	sudo st-flash write $< 0x8000000 || sudo st-flash write $< 0x8000000
+
+reset:
+	sudo st-flash reset
 
 .PHONY: all flash clean fclean re
