@@ -48,7 +48,12 @@ fclean: clean
 re: fclean all
 
 flash: $(NAME).bin
-	sudo st-flash write $< 0x8000000 || sudo st-flash write $< 0x8000000
+	sudo kill `pidof st-util` || true
+	sudo st-flash reset
+	sudo st-flash write $< 0x8000000
+
+debug: flash
+	arm-none-eabi-gdb $(NAME).elf -ex "tar ext :4242"
 
 reset:
 	sudo st-flash reset

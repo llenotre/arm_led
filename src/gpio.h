@@ -32,21 +32,21 @@
 __attribute__((packed))
 struct gpio
 {
-	uint32_t mode;
-	uint32_t type;
-	uint32_t speed;
-	uint32_t pull;
-	const uint32_t input;
-	uint32_t output;
-	uint32_t bsr;
-	uint32_t lock;
-	uint32_t afl;
-	uint32_t afh;
+	volatile uint32_t mode;
+	volatile uint32_t type;
+	volatile uint32_t speed;
+	volatile uint32_t pull;
+	volatile const uint32_t input;
+	volatile uint32_t output;
+	volatile uint32_t bsr;
+	volatile uint32_t lock;
+	volatile uint32_t afl;
+	volatile uint32_t afh;
 };
 
 typedef struct gpio gpio_t;
 
-void set_GPIO_mode(volatile gpio_t *gpio, unsigned pin, unsigned mode);
-void set_GPIO_out(volatile gpio_t *gpio, unsigned pin, unsigned val);
+void set_GPIO_mode(gpio_t *gpio, unsigned pin, unsigned mode);
+void set_GPIO_out(gpio_t *gpio, unsigned pin, unsigned val);
 
 #endif

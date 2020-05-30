@@ -1,9 +1,9 @@
 #include <gpio.h>
 #include <assert.h>
 
-void set_GPIO_mode(volatile gpio_t *gpio, unsigned pin, unsigned mode)
+void set_GPIO_mode(gpio_t *gpio, unsigned pin, unsigned mode)
 {
-	assert(gpio && pin <= 16 && mode <= 0b11);
+	//assert(gpio && pin <= 15 && mode <= 0b11);
 	gpio->mode &= ~(0b11 << (pin * 2));
 	gpio->mode |= mode << (pin * 2);
 }
@@ -13,9 +13,9 @@ void set_GPIO_mode(volatile gpio_t *gpio, unsigned pin, unsigned mode)
 // TODO Set GPIO pull-up/pull-down
 
 // TODO GPIO Input
-void set_GPIO_out(volatile gpio_t *gpio, unsigned pin, unsigned val)
+void set_GPIO_out(gpio_t *gpio, unsigned pin, unsigned val)
 {
-	assert(gpio && pin <= 16 && val <= 1);
+	//assert(gpio && pin <= 15 && val <= 1);
 	gpio->output &= ~(1 << pin);
 	gpio->output |= val << pin;
 }

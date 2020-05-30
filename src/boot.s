@@ -1,3 +1,6 @@
+.set STACK_OFFSET,	0x80000
+.set STACK_SIZE,	0x8000
+
 .section .init
 
 .org 0x0
@@ -24,8 +27,8 @@ IVT:
 .extern main
 
 _start:
-	blx main
-	blx halt
+	bl main
+	bl halt
 
 nmi:
 	b nmi
@@ -57,6 +60,6 @@ halt:
 
 .section .bss
 
-.org 0x20000 + 0x8000
+.org STACK_OFFSET + STACK_SIZE
 
 stack_top:
