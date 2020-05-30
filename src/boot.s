@@ -1,4 +1,3 @@
-.set STACK_OFFSET,	0x80000
 .set STACK_SIZE,	0x8000
 
 .section .init
@@ -55,11 +54,13 @@ systick:
 	b systick
 
 halt:
-	wfe
+	# wfe
 	b halt
 
 .section .bss
 
-.org STACK_OFFSET + STACK_SIZE
+.skip STACK_SIZE
 
 stack_top:
+
+heap:

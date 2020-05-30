@@ -1,6 +1,6 @@
 NAME = led
 CC = arm-none-eabi-gcc
-CFLAGS = -nostdlib -ffreestanding -fpic -mcpu=cortex-m4 -mthumb -fno-pie -no-pie -Wall -Wextra -Werror -ggdb -Os
+CFLAGS = -nostdlib -ffreestanding -fpic -mcpu=cortex-m4 -mthumb -mthumb-interwork -mlittle-endian -flto -fno-pie -no-pie -Wall -Wextra -Werror -ggdb -Os
 
 OBJCOPY = arm-none-eabi-objcopy
 

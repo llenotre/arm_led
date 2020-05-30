@@ -3,7 +3,7 @@
 
 void set_GPIO_mode(gpio_t *gpio, unsigned pin, unsigned mode)
 {
-	//assert(gpio && pin <= 15 && mode <= 0b11);
+	assert(gpio && pin <= 15 && mode <= 0b11);
 	gpio->mode &= ~(0b11 << (pin * 2));
 	gpio->mode |= mode << (pin * 2);
 }
@@ -15,7 +15,7 @@ void set_GPIO_mode(gpio_t *gpio, unsigned pin, unsigned mode)
 // TODO GPIO Input
 void set_GPIO_out(gpio_t *gpio, unsigned pin, unsigned val)
 {
-	//assert(gpio && pin <= 15 && val <= 1);
+	assert(gpio && pin <= 15 && val <= 1);
 	gpio->output &= ~(1 << pin);
 	gpio->output |= val << pin;
 }

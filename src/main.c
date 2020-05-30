@@ -20,5 +20,4 @@ void main(void)
 
 	set_GPIO_mode(GPIO_A, 5, GPIO_MODE_OUTPUT);
 	set_GPIO_out(GPIO_A, 5, 1);
-	halt();
 }
