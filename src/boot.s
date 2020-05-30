@@ -23,10 +23,6 @@ IVT:
 .global halt
 .extern main
 
-.org 0x8000
-
-stack_top:
-
 _start:
 	blx main
 	blx halt
@@ -58,3 +54,9 @@ systick:
 halt:
 	wfe
 	b halt
+
+.section .bss
+
+.org 0x20000 + 0x8000
+
+stack_top:

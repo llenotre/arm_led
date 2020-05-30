@@ -29,7 +29,8 @@
 # define GPIO_PULL_MODE_UP			0b01
 # define GPIO_PULL_MODE_DOWN		0b10
 
-typedef struct
+__attribute__((packed))
+struct gpio
 {
 	uint32_t mode;
 	uint32_t type;
@@ -41,7 +42,9 @@ typedef struct
 	uint32_t lock;
 	uint32_t afl;
 	uint32_t afh;
-} gpio_t;
+};
+
+typedef struct gpio gpio_t;
 
 void set_GPIO_mode(volatile gpio_t *gpio, unsigned pin, unsigned mode);
 void set_GPIO_out(volatile gpio_t *gpio, unsigned pin, unsigned val);
