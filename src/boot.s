@@ -1,5 +1,4 @@
 .set STACK_SIZE,	0x8000
-
 .section .init
 
 .org 0x0
@@ -54,7 +53,7 @@ systick:
 	b systick
 
 halt:
-	# wfe
+	wfi
 	b halt
 
 .section .bss
